@@ -41,7 +41,6 @@ public class MemberService {
 
     public List<Member> searchMembers(String name, String phoneNumber) {
         if (name != null && phoneNumber != null) {
-            // ✅ Fixed incorrect method call
             return memberRepository.findByNameContainingIgnoreCaseAndPhoneNumber(name, phoneNumber);
         } else if (name != null) {
             return memberRepository.findByNameContainingIgnoreCase(name);

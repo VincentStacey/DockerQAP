@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/members") // Ensures all endpoints start with /members
+@RequestMapping("/members")
 public class MemberController {
 
     @Autowired
