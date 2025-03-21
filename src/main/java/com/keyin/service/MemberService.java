@@ -5,6 +5,7 @@ import com.keyin.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,5 +37,17 @@ public class MemberService {
 
     public List<Member> searchByPhoneNumber(String phoneNumber) {
         return memberRepository.findByPhoneNumber(phoneNumber);
+    }
+
+    public List<Member> searchMembers(String name, String phoneNumber) {
+        if (name != null && phoneNumber != null) {
+            // ✅ Fixed incorrect method call
+            return memberRepository.findByNameContainingIgnoreCaseAndPhoneNumber(name, phoneNumber);
+        } else if (name != null) {
+            return memberRepository.findByNameContainingIgnoreCase(name);
+        } else if (phoneNumber != null) {
+            return memberRepository.findByPhoneNumber(phoneNumber);
+        }
+        return new ArrayList<>();
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/members") // Ensures all endpoints start with /members
 public class MemberController {
 
     @Autowired
@@ -34,5 +34,10 @@ public class MemberController {
     public void deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
     }
-}
 
+    @GetMapping("/search")
+    public List<Member> searchMembers(@RequestParam(required = false) String name,
+                                      @RequestParam(required = false) String phoneNumber) {
+        return memberService.searchMembers(name, phoneNumber);
+    }
+}

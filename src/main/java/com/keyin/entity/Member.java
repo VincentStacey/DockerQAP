@@ -1,9 +1,12 @@
 package com.keyin.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,4 +24,8 @@ public class Member {
     private String phoneNumber;
     private LocalDate startDate;
     private int duration;
+
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
+    private Set<Tournament> tournaments = new HashSet<>();
 }

@@ -1,6 +1,8 @@
 package com.keyin.service;
 
+import com.keyin.entity.Member;
 import com.keyin.entity.Tournament;
+import com.keyin.repository.MemberRepository;
 import com.keyin.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ public class TournamentService {
 
     @Autowired
     private TournamentRepository tournamentRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     public Tournament addTournament(Tournament tournament) {
         return tournamentRepository.save(tournament);
@@ -37,5 +42,20 @@ public class TournamentService {
 
     public List<Tournament> searchByLocation(String location) {
         return tournamentRepository.findByLocationContainingIgnoreCase(location);
+    }
+
+    public Tournament addMemberToTournament(Long tournamentId, Long memberId) {
+        Optional<Tournament> tournamentOptional = tournamentRepository.findById(tournamentId);
+        Optional<Member> memberOptional = memberRepository.findById(memberId);
+
+        if (tournamentOptional.isPresent() && memberOptional.isPresent()) {
+            Tournament tournament = tournamentOptional.get();
+            Member member = memberOptional.get();
+
+            tournament.getMembers().add(member);
+            return tournamentRepository.save(tournament);
+        } else {
+            throw new RuntimeException("Tournament or Member not found");
+        }
     }
 }

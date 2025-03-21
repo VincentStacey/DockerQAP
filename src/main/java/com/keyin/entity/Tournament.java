@@ -1,9 +1,11 @@
 package com.keyin.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,5 +30,6 @@ public class Tournament {
             joinColumns = @JoinColumn(name = "tournament_id"),
             inverseJoinColumns = @JoinColumn(name = "member_id")
     )
-    private Set<Member> members;
+    @JsonManagedReference
+    private Set<Member> members = new HashSet<>();
 }
