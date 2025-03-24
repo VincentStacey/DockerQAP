@@ -1,37 +1,12 @@
 version: '3.8'
 services:
-  mysql-db:
-    image: mysql:8.0
-    container_name: golf_mysql
-    restart: always
-    environment:
-      MYSQL_DATABASE: golf_club
-      MYSQL_USER: root
-      MYSQL_PASSWORD: HockeyVincent44!
-      MYSQL_ROOT_PASSWORD: HockeyVincent44!
+  myapp-main:
+    image: golf_reg_api:latest
     ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - backend
-
-  spring-app:
-    build: .
-    container_name: golf_backend
-    depends_on:
-      - mysql-db
+      - 8080:8080
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/golf_club
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: HockeyVincent44!
-    ports:
-      - "8080:8080"
-    networks:
-      - backend
+      - spring.datasource.url=jdbc:mysql://host.docker.internal:3306/golf_db_2025
+      #- spring.datasource.url=jdbc:mysql://s4-fall-2022.ce2ycezhro2.us-east=1.rds.amazonaws.com/fall_2022
+      - spring.datasource.password=HockeyVincent44!
+      - spring.datasource.username=root
 
-networks:
-  backend:
-
-volumes:
-  mysql_data:
